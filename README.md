@@ -94,8 +94,17 @@ Teks saat ini: HaloDunia
 ```
 
 ### 3. Manajemen Data Mahasiswa dengan Linked List
-- (Silakan tambahkan file dan implementasi sesuai kebutuhan tugas)
-- Contoh aplikasi: menambah, menghapus, dan memperbarui data mahasiswa dalam sistem akademik.
+File: `MahasiswaLinkedList.java`
+
+- Program Manajemen Data Mahasiswa menggunakan `Double Linked List`.
+- Fitur: tambah, update, tampilkan dan hapus data mahasiswa.
+- Terdapat pengujian performa untuk 100.000 operasi penambahan, update, traversal dan penghapusan data mahasiswa menggunakan `System.nanoTime()`.
+
+**Contoh Output Program:**
+```
+Menambahkan 100.000 mahasiswa.
+Penambahan selesai dalam 36133355417,00 ns
+```
 
 ---
 
@@ -109,7 +118,10 @@ Pengukuran dilakukan dengan mencatat waktu sebelum dan sesudah setiap blok opera
 | Queue  | addCustomer   | 100.000        | 17.704.875 ns       | Sangat efisien, penambahan selalu di akhir antrean. Rata-rata 177 ns/op. |
 | Queue  | serveCustomer | 100.000        | 3.364.083 ns        | Sangat efisien, penghapusan di awal antrean. Rata-rata 33,6 ns/op.       |
 | Stack  | (to be filled)| (to be filled) | (to be filled)      | (to be filled)                                                          |
-| Linked List | (to be filled) | (to be filled) | (to be filled) | (to be filled)                                                          |
+| Linked List | testPerformaTambahMahasiswa     | 100.000 | 36.133.355.417 ns   | Operasi tambah masih efisien, rata-rata 361.334 ns/op.                     |
+| Linked List | testPerformaUpdateMahasiswa     | 100.000 | 14.940.892.292 ns   | Update relatif cepat, rata-rata 149.409 ns/ops.                             |
+| Linked List | testPerformaTampilkanMahasiswa  | 100.000 | 3.339.125 ns        | Menampilkan sangat cepat, hanya traversal satu arah, rata-rata 33,39 ns/op.  |
+| Linked List | testPerformaHapusMahasiswa      | 100.000 | 62.616.667 ns       | Hapus membutuhkan traversal dan penggeseran pointer, agak lebih lambat. Rata-rata 626,17 ns/op.|
 
 ---
 

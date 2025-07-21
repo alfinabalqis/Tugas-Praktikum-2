@@ -31,6 +31,24 @@ Repository Praktikum: [https://github.com/alfinabalqis/Tugas-Praktikum-2](https:
 
 ---
 
+## Cara Menjalankan Program
+
+```bash
+# Compile semua file
+javac *.java
+
+# Jalankan CustomerServiceQueue
+java CustomerServiceQueue
+
+# Jalankan TextEditor 
+java TextEditor
+
+# Jalankan MahasiswaLinkedList
+java MahasiswaLinkedList
+```
+
+---
+
 ## Implementasi Program
 
 ### 1. Sistem Manajemen Antrean (Queue)
@@ -75,7 +93,8 @@ Pelanggan dalam antrean: Kosong
 File: `TextEditor.java`
 
 - Menggunakan dua buah stack (`undoStack` dan `redoStack`) untuk menyimpan state teks sebelum dan sesudah perubahan.
-- Fitur: ketik teks, undo, redo, tampilkan teks.
+- Fitur: ketik teks, undo, redo, tampilkan teks, performance test.
+- Terdapat pengujian performa untuk operasi type, undo, redo, dan operasi campuran menggunakan `System.nanoTime()`.
 
 **Contoh Penggunaan:**
 ```
@@ -91,6 +110,35 @@ Teks saat ini: Halo
 > redo
 > show
 Teks saat ini: HaloDunia
+> performance
+=== PERFORMANCE TEST TEXT EDITOR ===
+Program ini akan menguji performa operasi TextEditor
+1. Type operations
+2. Undo operations
+3. Redo operations
+4. Mixed operations
+5. Semua test
+Pilih test yang ingin dijalankan (1-5):
+```
+
+**Contoh Output Performance Test:**
+```
+=== PERFORMANCE TEST TEXT EDITOR ===
+--- Pengukuran Performa TextEditor Type ---
+Waktu untuk 10000 operasi 'type': 11659917 ns (11.659917 ms)
+Rata-rata waktu per operasi: 1165.99 ns
+
+--- Pengukuran Performa TextEditor Undo ---
+Waktu untuk 10000 operasi 'undo': 4926500 ns (4.926500 ms)
+Rata-rata waktu per operasi: 492.65 ns
+
+--- Pengukuran Performa TextEditor Redo ---
+Waktu untuk 10000 operasi 'redo': 1297708 ns (1.297708 ms)
+Rata-rata waktu per operasi: 129.77 ns
+
+--- Pengukuran Performa TextEditor Mixed Operations ---
+Waktu untuk 10000 operasi campuran (type/undo/redo): 7229750 ns (7.229750 ms)
+Rata-rata waktu per operasi: 722.98 ns
 ```
 
 ### 3. Manajemen Data Mahasiswa dengan Linked List
@@ -117,7 +165,10 @@ Pengukuran dilakukan dengan mencatat waktu sebelum dan sesudah setiap blok opera
 |--------|---------------|----------------|---------------------|--------------------------------------------------------------------------|
 | Queue  | addCustomer   | 100.000        | 17.704.875 ns       | Sangat efisien, penambahan selalu di akhir antrean. Rata-rata 177 ns/op. |
 | Queue  | serveCustomer | 100.000        | 3.364.083 ns        | Sangat efisien, penghapusan di awal antrean. Rata-rata 33,6 ns/op.       |
-| Stack  | (to be filled)| (to be filled) | (to be filled)      | (to be filled)                                                          |
+| Stack  | type          | 10.000         | 11.659.917 ns       | Operasi push ke stack efisien, rata-rata 1.165,99 ns/op.                 |
+| Stack  | undo          | 10.000         | 4.926.500 ns        | Operasi pop dari stack cepat, rata-rata 492,65 ns/op.                   |
+| Stack  | redo          | 10.000         | 1.297.708 ns        | Operasi pop dari redo stack sangat efisien, rata-rata 129,77 ns/op.      |
+| Stack  | mixed ops     | 10.000         | 7.229.750 ns        | Operasi campuran memerlukan overhead, rata-rata 722,98 ns/op.            |
 | Linked List | testPerformaTambahMahasiswa     | 100.000 | 36.133.355.417 ns   | Operasi tambah masih efisien, rata-rata 361.334 ns/op.                     |
 | Linked List | testPerformaUpdateMahasiswa     | 100.000 | 14.940.892.292 ns   | Update relatif cepat, rata-rata 149.409 ns/ops.                             |
 | Linked List | testPerformaTampilkanMahasiswa  | 100.000 | 3.339.125 ns        | Menampilkan sangat cepat, hanya traversal satu arah, rata-rata 33,39 ns/op.  |
@@ -127,4 +178,28 @@ Pengukuran dilakukan dengan mencatat waktu sebelum dan sesudah setiap blok opera
 
 ## Kesimpulan
 
-(Analisis dan kesimpulan dapat diisi setelah seluruh pengujian dan implementasi selesai)
+Berdasarkan pengujian performa yang telah dilakukan pada ketiga struktur data (Queue, Stack, dan Linked List), dapat ditarik beberapa kesimpulan:
+
+### 1. **Queue Performance (Customer Service)**
+- Operasi `addCustomer` (enqueue) sangat efisien dengan rata-rata 177 ns/op
+- Operasi `serveCustomer` (dequeue) bahkan lebih cepat dengan rata-rata 33,6 ns/op
+- Queue berbasis LinkedList menunjukkan performa yang sangat baik untuk operasi FIFO
+
+### 2. **Stack Performance (TextEditor)**
+- Operasi `type` (push ke undoStack) efisien dengan rata-rata 1.165,99 ns/op
+- Operasi `undo` (pop dari undoStack) cepat dengan rata-rata 492,65 ns/op
+- Operasi `redo` (pop dari redoStack) sangat efisien dengan rata-rata 129,77 ns/op
+- Operasi campuran memerlukan overhead lebih tinggi (722,98 ns/op) karena switching antar stack
+
+### 3. **Linked List Performance (Mahasiswa)**
+- Operasi traversal (`tampilkanMahasiswa`) sangat cepat dengan rata-rata 33,39 ns/op
+- Operasi tambah dan update relatif efisien
+- Operasi hapus memerlukan waktu lebih lama karena perlu traversal dan penggeseran pointer
+
+### 4. **Perbandingan Umum**
+- **Queue** dan **Stack** menunjukkan performa yang sangat baik untuk operasi dasar mereka
+- **Linked List** efisien untuk traversal tetapi memerlukan waktu lebih untuk operasi yang membutuhkan pencarian
+- Implementasi undo/redo menggunakan Stack sangat efektif dan cepat
+- Semua struktur data menunjukkan kompleksitas waktu O(1) untuk operasi utama mereka
+
+Implementasi ini berhasil mendemonstrasikan efisiensi dan kegunaan struktur data dalam konteks aplikasi nyata.
